@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import home.amit.app.dto.EmployeeDTO;
 import home.amit.app.model.Employee;
-import home.amit.app.respository.EmployeeRepository;
+import home.amit.app.repository.EmployeeRepository;
 
 @Service("employeeService")
 public class EmployeeServiceImpl implements EmployeeService {
@@ -46,17 +46,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 	}
 
-	public int updateEmployee(EmployeeDTO updatedDTO) {
+	public Employee updateEmployee(EmployeeDTO updatedDTO) {
 
 		Employee emp=new Employee();
 		BeanUtils.copyProperties(updatedDTO, emp);
 		Employee insertedEmp = employeeRepository.save(emp);
-		int updateCount=insertedEmp!=null?1:0;
-		return updateCount;
+		return insertedEmp;
 	}
 
 	public void deleteEmployee(String empId) {
 		employeeRepository.deleteById(empId);
+	}
+
+	@Override
+	public Employee createEmployee(EmployeeDTO empDTO) {
+		Employee emp=new Employee();
+		BeanUtils.copyProperties(empDTO, emp);
+		Employee insertedEmp = employeeRepository.save(emp);
+		return insertedEmp;
 	}
 
 }
