@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import home.amit.app.dto.EmployeeDTO;
@@ -18,10 +19,13 @@ import home.amit.app.service.EmployeeService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
+@RequestMapping({ "/employees" })
 public class EmployeeRestServiceController {
 
 	@Autowired
 	private EmployeeService employeeService;
+	
+//	private List<EmployeeDTO> employees = getAllEmployees();
 	
 	@GetMapping("/")
 	public String getName()
@@ -48,10 +52,15 @@ public class EmployeeRestServiceController {
 		return employeeService.updateEmployee(empDTO);
 	}
 	
-	@DeleteMapping("/deleteEmployee")
+	@DeleteMapping(path = { "/{id}" })
 	public void deleteEmployee(@PathVariable("id") String empId)
 	{
 		 employeeService.deleteEmployee(empId);
 	}
 	
+//	@DeleteMapping(path = { "/{id}" })
+//	public EmployeeDTO delete(@PathVariable("id") String id) {
+//		employeeService.deleteEmployee(id);
+//		return new EmployeeDTO();
+//	}
 }
