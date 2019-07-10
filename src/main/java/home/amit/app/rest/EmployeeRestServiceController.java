@@ -58,9 +58,4 @@ public class EmployeeRestServiceController {
 		 employeeService.deleteEmployee(empId);
 	}
 	
-//	@DeleteMapping(path = { "/{id}" })
-//	public EmployeeDTO delete(@PathVariable("id") String id) {
-//		employeeService.deleteEmployee(id);
-//		return new EmployeeDTO();
-//	}
 }
