@@ -2,6 +2,7 @@ package home.amit.app.rest;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +23,8 @@ import home.amit.app.service.EmployeeService;
 @RequestMapping({ "/employees" })
 public class EmployeeRestServiceController {
 
+	private static Logger LOG=Logger.getLogger(EmployeeRestServiceController.class.getName());
+	
 	@Autowired
 	private EmployeeService employeeService;
 	
@@ -37,6 +40,7 @@ public class EmployeeRestServiceController {
 	@GetMapping("/getAllEmployees")
 	public List<EmployeeDTO> getAllEmployees()
 	{
+		LOG.info("Calling Get Employees");
 		return employeeService.getAllEmployees();
 	}
 	

@@ -6,6 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import home.amit.app.dto.EmployeeDTO;
@@ -18,6 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
+	@Cacheable(value="getEmployees")
 	public List<EmployeeDTO> getAllEmployees() {
 
 		 Iterable<Employee> employees = employeeRepository.findAll();
@@ -31,6 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		 return employeesList;
 	}
 
+	@Cacheable(value="getEmployees" , key="#id")
 	public EmployeeDTO getEmployee(String id) {
 		Optional<Employee> employee = employeeRepository.findById(id);
 		EmployeeDTO dto = new EmployeeDTO();
@@ -43,9 +48,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		{
 			return null;
 		}
-		
 	}
 
+	@CachePut(value="getEmployees")
 	public Employee updateEmployee(EmployeeDTO updatedDTO) {
 
 		Employee emp=new Employee();
@@ -54,10 +59,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return insertedEmp;
 	}
 
+	@CacheEvict(value="getEmployees")
 	public void deleteEmployee(String empId) {
 		employeeRepository.deleteById(empId);
 	}
 
+	@CachePut(value="getEmployees")
 	@Override
 	public Employee createEmployee(EmployeeDTO empDTO) {
 		Employee emp=new Employee();
